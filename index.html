@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<head>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;900&display=swap');
+
+		body{margin: 0;}
+		.container {display: flex;align-items: center;justify-content: center;padding: 50px; width: 400px; font-family: 'Noto Sans KR', sans-serif; font-size: 900; letter-spacing: -0.3em;}
+		.heading {color: #eee;font-size: 5rem;font-weight: 300;text-transform: uppercase;}
+		.bg{background-image: url('world.jpg'); background-repeat: no-repeat; background-size: cover;}
+		section{margin: auto; position: relative; height: 100vh;}
+		li > label > input[type=checkbox] {width: 15px; height: 15px; vertical-align: middle; margin: 0 5px 0 0;}
+  		li > label > input[type=radio] {width: 15px; height: 15px; vertical-align: middle; margin: 0 5px 0 0; vertical-align: top;}
+		.shadow{box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px,6px 6px 0px 0px,7px 7px 0px 0px;}
+		.wrap{display: flex; justify-content: center; align-items:center; width: 1200px;}
+		.button-54 {font-family: "Open Sans", sans-serif;
+  font-size: 20px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  cursor: pointer;
+  border: 3px solid;
+  padding: 0.5em 0.5em;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-54:active {
+  box-shadow: 0px 0px 0px 0px;
+  top: 5px;
+  left: 5px;
+}
+
+@media (min-width: 768px) {
+  .button-54 {
+    padding: 0.25em 0.75em;
+  }
+}
+
+</style>
+
+</head>
+<body class="bg">
+	<section class="wrap">
+		<div class="container">
+			<h1 class="heading" data-target-resolver></h1>
+			<script>const resolver = {
+				resolve: function resolve(options, callback) {
+				  const resolveString = options.resolveString || options.element.getAttribute('data-target-resolver');
+				  const combinedOptions = Object.assign({}, options, {resolveString: resolveString});
+				  
+				  function getRandomInteger(min, max) {
+					return Math.floor(Math.random() * (max - min + 2)) + min;
+				  };
+				  
+				  function randomCharacter(characters) {
+					return characters[getRandomInteger(0, characters.length - 2)];
+				  };
+				  
+				  function doRandomiserEffect(options, callback) {
+					const characters = options.characters;
+					const timeout = options.timeout;
+					const element = options.element;
+					const partialString = options.partialString;
+			  
+					let iterations = options.iterations;
+			  
+					setTimeout(() => {
+					  if (iterations >= 0) {
+						const nextOptions = Object.assign({}, options, {iterations: iterations - 1});
+			  
+						// Ensures partialString without the random character as the final state.
+						if (iterations === 0) {
+						  element.textContent = partialString;
+						} else {
+						  // Replaces the last character of partialString with a random character
+						  element.textContent = partialString.substring(0, partialString.length - 1) + randomCharacter(characters);
+						}
+			  
+						doRandomiserEffect(nextOptions, callback)
+					  } else if (typeof callback === "function") {
+						callback(); 
+					  }
+					}, options.timeout);
+				  };
+				  
+				  function doResolverEffect(options, callback) {
+					const resolveString = options.resolveString;
+					const characters = options.characters;
+					const offset = options.offset;
+					const partialString = resolveString.substring(0, offset);
+					const combinedOptions = Object.assign({}, options, {partialString: partialString});
+			  
+					doRandomiserEffect(combinedOptions, () => {
+					  const nextOptions = Object.assign({}, options, {offset: offset + 1});
+			  
+					  if (offset <= resolveString.length) {
+						doResolverEffect(nextOptions, callback);
+					  } else if (typeof callback === "function") {
+						callback();
+					  }
+					});
+				  };
+			  
+				  doResolverEffect(combinedOptions, callback);
+				} 
+			  }
+			  
+			  const strings = [
+				'아주 멀리 있는 별들의 붕괴와 탄생을',
+				'우리가 알아챌 수 없듯이',
+				'바로 곁에 있는 서로의 분열과 탄식도',
+				'우리는 알아챌 수 없었네',
+				'너는 존재하네 짙고 검은 공허 속에서',
+				'서로 일으키고 끌어안고 무너뜨리며',
+				'나의 창백한 푸른 점으로',
+				'약속된 낙원으론 그 언제 갈 수 있을까',
+				'불타는 숲에 서서 올려다 본 하늘은',
+				'푸르지 않아 더 이상',
+				'지진과 해일, 무너지는 빙하',
+				'폭발하는 분화구, 시위와 분노',
+				'가난과 질병 ... ... ...',
+			  ];
+			  
+			  let counter = 0;
+			  
+			  const options = {
+				// Initial position
+				offset: 0,
+				// Timeout between each random character
+				timeout: 5,
+				// Number of random characters to show
+				iterations: 10,
+				// Random characters to pick from
+				characters: ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅊ', 'ㅌ', 'ㅋ', 'ㅍ', 'ㅎ', '#', '%', '&', '-', '+', '_', '?', '/', '\\', '='],
+				// String to resolve
+				resolveString: strings[counter],
+				// The element
+				element: document.querySelector('[data-target-resolver]')
+			  }
+			  
+			  // Callback function when resolve completes
+			  function callback() {
+				setTimeout(() => {
+				  counter ++;
+				  
+				  if (counter >= strings.length) {
+					counter = 0;
+				  }
+				  
+				  let nextOptions = Object.assign({}, options, {resolveString: strings[counter]});
+				  resolver.resolve(nextOptions, callback);
+				}, 1000);
+			  }
+			  
+			  resolver.resolve(options, callback);</script>
+		  </div>
+		<div> 
+			<span id="seconds" style="color: white; font-size: 2em;">20</span>
+			<script>
+				timeLeft = 20;
+				function countdown() {timeLeft--;document.getElementById("seconds").innerHTML = String( timeLeft );
+				if (timeLeft > 0) {
+				setTimeout(countdown, 1000);
+				}
+				};
+
+				setTimeout(countdown, 1000);
+			</script>
+
+		<div style="font-family: 'Noto Sans KR', sans-serif; font-size: 700; letter-spacing: -0.1em" class="shadow">
+		<div style='background-color: white; width: 400px; padding: 20px 12px 20px 12px;' >
+			<div style='font-size: 20px; text-align: center; font-weight: bolder; margin-bottom: 10px; padding: 20px 0px 20px 0px;border: 3px solid;'> 지구 서비스 만족도 조사 </div>
+			<div style='background-color: white; padding: 12px 12px 12px 12px; margin-top: 5px; border: 3px solid;'>
+			  <div style="font-weight: bolder; ">1. 지구 서비스에 만족하십니까?</div>
+			  <div style="list-style: none; margin-top: 7px;">
+				<li><label for="Q1_1"><input type="radio" name="Q1" id="Q1_1" value="만족"> 만족</label></li>
+				<li><label for="Q1_2"><input type="radio" name="Q1" id="Q1_2" value="불만족(직접입력)"> 불만족(사유: 직접입력)</label></li>
+		 		<li><label for="Q1_a"><input type="text" name="Q1" id="Q1_a"></label></li>
+		 	 </div>
+			</div>
+		<div style='background-color: white; padding: 12px 12px 12px 12px; margin-top: 5px; border: 3px solid;'>
+			<div style="font-weight: bolder;">2. 지구를 멸망시키고 싶으십니까?</div>
+		 	<div style="list-style: none; margin-top: 7px;">
+		 	 	<li><label for="Q2_1"><input type="radio" name="Q2" id="Q2_1" value="네">네</label></li>
+				<li><label for="Q2_1"><input type="radio" name="Q2" id="Q2_2" value="아니요">네</label></li>
+				<li><label for="Q2_1"><input type="radio" name="Q2" id="Q2_2" value="아니요">네!!</label></li>
+		 	</div>
+		</div>
+		
+		<div style="text-align: center; margin-top: 15px; ">
+		  <button class="button-54" role="button" id="summit" onclick="ans_chek()"> 제 출 </button>
+			<script>
+		  window.onload = function () {
+			var el = document.getElementById("summit")
+			el.onclick = hello;
+		}
+		
+		function hello()  {
+		  alert('지구멸망 실행 완료!');
+		}
+			</script>
+
+		<script type="text/javascript">
+    		function changeBackgroundImage(){
+     		var el= document.getElementById('summit').style.backgroundImage="url('fail.jpeg')";
+     		}
+  		</script>
+	  </div>
+	  </div>
+	  </div>
+	</section>
+</body>
